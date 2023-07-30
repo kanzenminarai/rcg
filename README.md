@@ -54,8 +54,3 @@ rcg
 cd $HOME/rcg
 make run
 ```
-
-```sh
-# if already compiled
-./rcg
-```
