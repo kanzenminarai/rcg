@@ -1,27 +1,38 @@
+# variables
+
 cc = gcc
 cf = -Wall -I include/
 lib = -l ncurses
 rm = rm -rfv
+mv = mv -v
+su = sudo
+soft = rcg
+path = /usr/local/bin/$(soft)
 
-all: rcg
 
-rcg: main.o array.o creation.o cases.o
-	$(cc) $(cf) -o $@ $^ $(lib)
+# targets
 
-main.o: src/main.c
+all: $(soft)
+
+$(soft): main.o array.o creation.o cases.o
+	$(mv) *.o object/
+	$(cc) $(cf) -o $(soft) object/*.o $(lib)
+	$(su) $(mv) $(soft) $(path)
+
+main.o: source/main.c
 	$(cc) $(cf) -c $<
 
-array.o: src/array.c
+array.o: source/array.c
 	$(cc) $(cf) -c $<
 
-creation.o: src/creation.c
+creation.o: source/creation.c
 	$(cc) $(cf) -c $<
 
-cases.o: src/cases.c
+cases.o: source/cases.c
 	$(cc) $(cf) -c $<
 
-run: rcg
-	./$<
+run: $(soft)
+	$(path)
 
 clean:
-	$(rm) rcg *.o
+	$(su) $(rm) $(path) object/*.o
