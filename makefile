@@ -19,16 +19,16 @@ $(soft): main.o array.o creation.o cases.o
 	$(cc) $(cf) -o $(soft) object/*.o $(lib)
 	$(su) $(mv) $(soft) $(path)
 
-main.o: source/main.c
+main.o: src/main.c
 	$(cc) $(cf) -c $<
 
-array.o: source/array.c
+array.o: src/array.c
 	$(cc) $(cf) -c $<
 
-creation.o: source/creation.c
+creation.o: src/creation.c
 	$(cc) $(cf) -c $<
 
-cases.o: source/cases.c
+cases.o: src/cases.c
 	$(cc) $(cf) -c $<
 
 run: $(soft)
