@@ -6,13 +6,12 @@ MV = mv -v
 SU = sudo
 SOFT = rcg
 BIN = /usr/local/bin/$(SOFT)
+OBJ = main.o array.o creation.o cases.o
 
 all: $(SOFT)
 
-$(SOFT): main.o array.o creation.o cases.o
-	$(MV) *.o obj/
-	$(CC) $(CFLAGS) -o $(SOFT) obj/*.o $(LIB)
-	$(SU) $(MV) $(SOFT) $(BIN)
+$(SOFT): $(OBJ)
+	$(CC) $(CFLAGS) -o $(SOFT) $^ $(LIB)
 
 main.o: src/main.c
 	$(CC) $(CFLAGS) -c $<
@@ -26,8 +25,15 @@ creation.o: src/creation.c
 cases.o: src/cases.c
 	$(CC) $(CFLAGS) -c $<
 
+install: $(SOFT)
+	$(SU) $(MV) $(SOFT) $(BIN)
+	$(SU) chmod +x $(BIN)
+
 run: $(SOFT)
 	$(BIN)
 
 clean:
-	$(SU) $(RM) $(BIN) obj/*.o
+	$(RM) $(OBJ)
+
+uninstall: clean
+	$(SU) $(RM) $(BIN)
