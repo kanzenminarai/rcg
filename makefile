@@ -1,38 +1,33 @@
-# variables
+CC = gcc
+CFLAGS = -Wall -I include/
+LIB = -l ncurses
+RM = rm -rfv
+MV = mv -v
+SU = sudo
+SOFT = rcg
+BIN = /usr/local/bin/$(SOFT)
 
-cc = gcc
-cf = -Wall -I include/
-lib = -l ncurses
-rm = rm -rfv
-mv = mv -v
-su = sudo
-soft = rcg
-path = /usr/local/bin/$(soft)
+all: $(SOFT)
 
-
-# targets
-
-all: $(soft)
-
-$(soft): main.o array.o creation.o cases.o
-	$(mv) *.o object/
-	$(cc) $(cf) -o $(soft) object/*.o $(lib)
-	$(su) $(mv) $(soft) $(path)
+$(SOFT): main.o array.o creation.o cases.o
+	$(MV) *.o obj/
+	$(CC) $(CFLAGS) -o $(SOFT) obj/*.o $(LIB)
+	$(SU) $(MV) $(SOFT) $(BIN)
 
 main.o: src/main.c
-	$(cc) $(cf) -c $<
+	$(CC) $(CFLAGS) -c $<
 
 array.o: src/array.c
-	$(cc) $(cf) -c $<
+	$(CC) $(CFLAGS) -c $<
 
 creation.o: src/creation.c
-	$(cc) $(cf) -c $<
+	$(CC) $(CFLAGS) -c $<
 
 cases.o: src/cases.c
-	$(cc) $(cf) -c $<
+	$(CC) $(CFLAGS) -c $<
 
-run: $(soft)
-	$(path)
+run: $(SOFT)
+	$(BIN)
 
 clean:
-	$(su) $(rm) $(path) object/*.o
+	$(SU) $(RM) $(BIN) obj/*.o
