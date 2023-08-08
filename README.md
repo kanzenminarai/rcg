@@ -17,7 +17,6 @@ inserted size and the type of characters selected, all through the input.
 
 ### Dependencies
 RCG was created and tested on linux x86_64 based OS, install the following libraries according to your package manager and distribution.
-
 ```sh
 # using apt (debian based distros)
 sudo apt install libncurses-dev make
@@ -28,21 +27,35 @@ sudo apt install libncurses-dev make
 sudo pacman -S ncurses make
 ```
 
-### Installation
+### Install
 Follow the steps described below to download and install rcg.
-
 ```sh
-# cloning the repository on the actual directory 
+# clone the repository
 git clone --verbose https://github.com/KanzenTaiwa/rcg.git
 
-# entering the directory
+# enter inside of rcg directory
 cd rcg/
 
-# compiling the software
-make
+# compile and install
+make install
 
-# executing the software
+# optional: removing object files
+make clean
+```
+
+### Initializing
+```sh
+# execute the software (global)
 rcg
+
+# or use make (local)
+make run
+```
+
+### Uninstall
+```sh
+# in case of the complete software removal 
+make uninstall
 ```
 
 ### Contribution
