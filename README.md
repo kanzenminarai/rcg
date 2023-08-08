@@ -13,7 +13,7 @@
 Rcg or Random Character Generator is a open source software that generates randomic characters, like letters, numbers and symbols according to the
 inserted size and the type of characters selected, all through the input.
 
-<video src="./assets/vid0.mp4" width="640" height="480" controls></video>
+https://github.com/KanzenTaiwa/rcg/assets/120531165/c6787a2f-31de-4e86-aa95-384f26271783
 
 ### Dependencies
 RCG was created and tested on linux x86_64 based OS, install the following libraries according to your package manager and distribution.
