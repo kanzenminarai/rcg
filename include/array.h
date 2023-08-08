@@ -1,38 +1,44 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-typedef struct arrTyp{
-  int length;
+typedef struct {
   int size;
-  int type;
   int counter;
   int range;
+  int count;
+  unsigned int length;
+  unsigned short int type;
   char *genChar;
-  char *genArr;
+  char *genArray;
   char *chars;
   char choice;
-} arrTyp;
+} Array;
 
-// creates an array using *chars and selects a range according to arrType() input 
-void arrCreation(int arrStrt, int arrEnd, int arrStrt1, int arrEnd1, arrTyp *ptr);
+// creates a array and get the selected range of characters 
+void arrayCreation(int array1, int array2, int array3, int array4, Array *ptr);
 
-// sorts the elements of the generated array in arrCreation() and inserts in this function array 
-void arrAttr(arrTyp *ptr);
+// sorts the elements of the generated array in arrayCreation()
+void arraySort(Array *ptr);
 
-// inserts the size of the array according to the input
-void arrSize(arrTyp *ptr);
+// get the size of the array
+void arraySize(Array *ptr);
 
-// insert which elements the array should have according to the input
-void arrType(arrTyp *ptr);
+// get the elements for the array 
+void arrayType(Array *ptr);
 
-// switch between the options according to the input on arrType(arrTyp *ptr)
-void arrCases(arrTyp *ptr);
+// switch between the case options
+void arrayCases(Array *ptr);
 
 // prints the output of the generated characters
-void arrOutput(arrTyp *ptr);
+void arrayOutput(Array *ptr);
 
-// repeat all or some process of rcg
-void arrRepeat(arrTyp *ptr);
+// repeat all or some process of other functions
+void arrayRepeat(Array *ptr);
 
+// get a seed for srand() according to Unix Time in nanoseconds
+void arrayRandom(Array *ptr);
+
+// free the allocatted memory from the used arrays
+void arrayFree(Array *ptr);
 
 #endif // ARRAY_H

@@ -56,7 +56,7 @@ void arrayRepeat(Array *ptr) {
     ptr->length = 0;
     ptr->type = 0;
     arraySize(ptr);
-    arrayType(ptr);  
+    arrayType(ptr);
     arrayCases(ptr);
     arrayOutput(ptr);
   }
