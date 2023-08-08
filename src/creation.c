@@ -1,32 +1,44 @@
 #include <stdlib.h>
+#include <time.h>
 #include <array.h>
 
-void arrCreation(int arrStrt, int arrEnd, int arrStrt1, int arrEnd1, arrTyp *ptr) {
+void arrayCreation(int array1, int array2, int array3, int array4, Array *ptr) {
   ptr->chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'|!@#$%&*()-_=+`{}[]^~<>,./?;:";
-  ptr->range = (arrEnd - arrStrt) + (arrEnd1 - arrStrt1);
+  ptr->range = (array2 - array1) + (array4 - array3);
+  ptr->genArray = malloc(ptr->range + 1);
 
-  ptr->genArr = malloc(ptr->range);
-  
-  if(arrEnd != 0) {
-    for(ptr->counter = 0; arrStrt < arrEnd; arrStrt++, ptr->counter++)
-      ptr->genArr[ptr->counter] = ptr->chars[arrStrt];
-  }
+  if(array2 != 0)
+    for(ptr->count = 0; array1 < array2; array1++, ptr->count++)
+      ptr->genArray[ptr->count] = ptr->chars[array1];
 
-  if(arrEnd != 0 && arrEnd1 != 0) { 
-    for(ptr->counter = arrEnd; arrStrt1 < arrEnd1; arrStrt1++, ptr->counter++) 
-      ptr->genArr[ptr->counter] = ptr->chars[arrStrt1];
-  }
-  ptr->genArr[ptr->counter] = '\0';
+  if(array2 != 0 && array4 != 0)
+    for(ptr->count = array2; array3 < array4; array3++, ptr->count++)
+      ptr->genArray[ptr->count] = ptr->chars[array3];
 
-  arrAttr(ptr);
+  ptr->genArray[ptr->count] = '\0';
+
+  arrayRandom(ptr);
+  arraySort(ptr);
 }
 
-void arrAttr(arrTyp *ptr) {
+void arrayRandom(Array *ptr) {
+  struct timespec ts;
+  timespec_get(&ts, time(0));
+  ptr->size = (ts.tv_nsec * ptr->count) - ptr->count;
+  srand(ptr->size);
+}
+
+void arraySort(Array *ptr) {
   ptr->genChar = malloc(ptr->length);
-  for(ptr->counter = 0; ptr->counter < (ptr->length); ptr->counter++) {
+  for(ptr->count = 0; ptr->count < (ptr->length); ptr->count++) {
     ptr->size = rand() % ptr->range;
-    ptr->genChar[ptr->counter] = ptr->genArr[ptr->size];
+    ptr->genChar[ptr->count] = ptr->genArray[ptr->size];
   }
   ptr->genChar[ptr->length] = '\0';
-  for(ptr->counter = 0; ptr->genChar[ptr->counter] != '\0'; ptr->counter++);
+  for(ptr->count = 0; ptr->genChar[ptr->count] != '\0'; ptr->count++);
+}
+
+void arrayFree(Array *ptr) {
+  free(ptr->genArray);
+  free(ptr->genChar);
 }
