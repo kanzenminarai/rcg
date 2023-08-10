@@ -19,12 +19,12 @@ https://github.com/KanzenTaiwa/rcg/assets/120531165/c6787a2f-31de-4e86-aa95-384f
 RCG was created and tested on linux x86_64 based OS, install the following libraries according to your package manager and distribution.
 ```sh
 # using apt (debian based distros)
-sudo apt install libncurses-dev make
+sudo apt install libncurses-dev make gcc
 ```
 
 ```sh
 # using pacman (arch linux based distros)
-sudo pacman -S ncurses make
+sudo pacman -S ncurses make gcc
 ```
 
 ### Install
@@ -54,7 +54,7 @@ make run
 
 ### Uninstall
 ```sh
-# in case of the complete software removal 
+# in case of a removal
 make uninstall
 ```
 
