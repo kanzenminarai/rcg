@@ -62,7 +62,7 @@ make uninstall
 ```
 
 ### Contribution
-Forking and merging back the changes to this project will be analysed and may be accepted according to the analysis, send an email using the one in the LICENSE file.
+Forking and merging back changes to this project will be analysed and may be accepted according to the analysis, send an email using the one in the LICENSE file.
 
 ### License
 This software is licensed under the [MIT License](./LICENSE).
