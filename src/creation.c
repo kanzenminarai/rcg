@@ -24,8 +24,7 @@ void arrayCreation(int array1, int array2, int array3, int array4, Array *ptr) {
 void arrayRandom(Array *ptr) {
   struct timespec ts;
   timespec_get(&ts, TIME_UTC);
-  ptr->size = (ts.tv_nsec * ptr->count) - ptr->count;
-  srand(ptr->size);
+  srand(ts.tv_nsec);
 }
 
 void arraySort(Array *ptr) {
