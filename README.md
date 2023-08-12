@@ -65,4 +65,4 @@ make uninstall
 Forking and merging back changes to this project will be analysed and may be accepted according to the analysis, send an email using the one in the LICENSE file.
 
 ### License
-This software is licensed under the [MIT License](./LICENSE).
+This software is under the [MIT License](./LICENSE).
