@@ -7,18 +7,18 @@
 ╚═╝  ╚═╝╚═╝ ╚═════╝╚═╝ ╚═════╝
 ```
 
-##### Formely: _Random Character Generator_
+##### Formerly: _Random Character Generator_
 
 ### About
-Rcg or Random Character Generator is a open source software that generates randomic characters, like letters, numbers and symbols according to the
-inserted size and the type of characters selected, all through the input.
+Rcg or Random Character Generator is an open source software that generates random assortments of characters, like letters, numbers and symbols according to the
+inserted lenght and type of characters selected, all through the input.
 
 https://github.com/KanzenTaiwa/rcg/assets/120531165/c6787a2f-31de-4e86-aa95-384f26271783
 
 ### Dependencies
 RCG was created and tested on linux x86_64 based OS, install the following libraries according to your package manager and distribution.
 ```sh
-# using apt (debian based distros)
+# using apt (debian-based distros)
 sudo apt install libncurses-dev make gcc
 ```
 
@@ -36,19 +36,22 @@ git clone --verbose https://github.com/KanzenTaiwa/rcg.git
 # enter inside of rcg directory
 cd rcg/
 
+# optional: only compile
+make
+
 # compile and install
 make install
 
-# optional: removing object files
+# optional: remove object files
 make clean
 ```
 
-### Initializing
+### Execute
 ```sh
-# execute the software (global)
+# execute the software (installed version)
 rcg
 
-# or use make (local)
+# or use make (locally built version)
 make run
 ```
 
@@ -59,7 +62,7 @@ make uninstall
 ```
 
 ### Contribution
-Forking and commiting the changes into this project will be analised and may be accepted according to the analisys, send a email using the one on LICENSE.
+Forking and merging back the changes to this project will be analysed and may be accepted according to the analysis, send an email using the one in the LICENSE file.
 
 ### License
-This software is under the [MIT License](./LICENSE).
+This software is licensed under the [MIT License](./LICENSE).
