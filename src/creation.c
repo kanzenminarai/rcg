@@ -29,8 +29,7 @@ void arrayCreation(int array1, int array2, int array3, int array4, Array *ptr) {
 void arrayGetNano(Array *ptr) {
   struct timespec ts;
   timespec_get(&ts, TIME_UTC);
-  ptr->size = ts.tv_nsec; // attributing time in nanoseconds to ptr->size
-  srand(ptr->size);
+  srand(ts.tv_nsec); // attributing the seed number in nanoseconds
 }
 
 void arraySort(Array *ptr) {
