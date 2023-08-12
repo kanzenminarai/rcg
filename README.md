@@ -10,7 +10,7 @@
 ##### Formerly: _Random Character Generator_
 
 ### About
-Rcg or Random Character Generator is an open source software that generates random assortments of characters, like letters, numbers and symbols according to the
+RCG is a open source software that generates random assortments of characters, like letters, numbers and symbols according to the
 inserted lenght and type of characters selected, all through the input.
 
 https://github.com/KanzenTaiwa/rcg/assets/120531165/c6787a2f-31de-4e86-aa95-384f26271783
@@ -48,7 +48,7 @@ make clean
 
 ### Execute
 ```sh
-# execute the software (installed version)
+# execute the software (globally installed version)
 rcg
 
 # or use make (locally built version)
@@ -62,7 +62,8 @@ make uninstall
 ```
 
 ### Contribution
-Forking and merging back changes to this project will be analysed and may be accepted according to the analysis, send an email using the one in the LICENSE file.
+Forking and merging back changes to this project will be analysed and may be accepted according to the analysis, send a message
+on discord: **kanzentaiwa** or even an email using the one in the LICENSE file.
 
 ### License
 This software is under the [MIT License](./LICENSE).
