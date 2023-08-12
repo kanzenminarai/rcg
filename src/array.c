@@ -3,6 +3,8 @@
 
 void arraySize(Array *ptr) {
   initscr();
+
+  // getting the size of the array
   do {
     clear();
     printw("- Random Character Generator -\n"
@@ -10,14 +12,15 @@ void arraySize(Array *ptr) {
     refresh();
     scanw("%i", &(ptr->length));
 
-    if(ptr->length > 0) break;
+    if(ptr->length > 0) break; // breaks the loop in case of a known value
     printw("Value unknown.\n");
     refresh();
     napms(500);
-  } while(ptr->length < 1);
+  } while(ptr->length < 1); // repeat if it's a unknown value
 }
 
 void arrayType(Array *ptr) {
+  // getting the type of the characters
   do {
     clear();
     printw("Select the option specified below to generate [ascending order]:\n"
@@ -28,14 +31,15 @@ void arrayType(Array *ptr) {
     refresh();
     scanw("%hi", &(ptr->type));
 
-    if(ptr->type > 0) break;
+    if(ptr->type > 0) break; // breaks the loop in case of a known value
     printw("Option unknown!\n");
     refresh();
     napms(500);
-  } while(ptr->type < 1);
+  } while(ptr->type < 1); // repeat if it's a unknown value
 }
 
 void arrayOutput(Array *ptr) {
+  // printing the output
   clear();
   printw("Selected characters: %s\n"
   "%i characters has been generated: %s\n"
@@ -45,13 +49,17 @@ void arrayOutput(Array *ptr) {
   "Press any other key to exit...",
   ptr->genArray, ptr->count, ptr->genChar, ptr->count * 8);
   refresh();
-  arrayFree(ptr);
+
+  arrayFreeMem(ptr); // freeing the allocated memory
+  
+  // getting the input
   ptr->choice = getch();
   arrayRepeat(ptr);
   endwin();
 }
 
 void arrayRepeat(Array *ptr) {
+  // repeats according to input from ptr->choice
   if(ptr->choice == 's') {
     ptr->length = 0;
     ptr->type = 0;

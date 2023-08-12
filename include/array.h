@@ -3,7 +3,6 @@
 
 typedef struct {
   int size;
-  int counter;
   int range;
   int count;
   unsigned int length;
@@ -36,9 +35,9 @@ void arrayOutput(Array *ptr);
 void arrayRepeat(Array *ptr);
 
 // get a seed for srand() according to Unix Time in nanoseconds
-void arrayRandom(Array *ptr);
+void arrayGetNano(Array *ptr);
 
 // free the allocatted memory from the used arrays
-void arrayFree(Array *ptr);
+void arrayFreeMem(Array *ptr);
 
 #endif // ARRAY_H
