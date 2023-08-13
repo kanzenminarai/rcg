@@ -4,14 +4,14 @@ LIB = -l ncurses
 RM = rm -rfv
 MV = mv -v
 SU = sudo
-SOFT = rcg
-BIN = /usr/local/bin/$(SOFT)
+TARG = rcg
+BIN = /usr/local/bin/$(TARG)
 OBJ = main.o array.o creation.o cases.o
 
-all: $(SOFT)
+all: $(TARG)
 
-$(SOFT): $(OBJ)
-	$(CC) $(CFLAGS) -o $(SOFT) $^ $(LIB)
+$(TARG): $(OBJ)
+	$(CC) $(CFLAGS) -o $(TARG) $^ $(LIB)
 
 main.o: src/main.c
 	$(CC) $(CFLAGS) -c $<
@@ -25,11 +25,11 @@ creation.o: src/creation.c
 cases.o: src/cases.c
 	$(CC) $(CFLAGS) -c $<
 
-install: $(SOFT)
-	$(SU) $(MV) $(SOFT) $(BIN)
+install: $(TARG)
+	$(SU) $(MV) $(TARG) $(BIN)
 	$(SU) chmod +x $(BIN)
 
-run: $(SOFT)
+run: $(TARG)
 	$(BIN)
 
 clean:
