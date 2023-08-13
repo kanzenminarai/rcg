@@ -8,7 +8,6 @@
 
 typedef struct {
   int range;
-  int count;
   unsigned int length;
   unsigned short int type;
   char *genChar;

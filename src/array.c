@@ -72,7 +72,7 @@ void arrayOutput(Array *ptr) {
   "Press \"s\" to start over\n"
   "Press \"r\" to recreate\n"
   "Press any other key to exit...",
-  ptr->genArray, ptr->count, ptr->genChar, ptr->count * 8);
+  ptr->genArray, ptr->length, ptr->genChar, ptr->length * 8);
   refresh();
 
   // freeing the allocated memory
