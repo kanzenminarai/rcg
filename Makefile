@@ -11,7 +11,7 @@ OBJ = main.o array.o creation.o cases.o
 all: $(TARG)
 
 $(TARG): $(OBJ)
-	$(CC) $(CFLAGS) -o $(TARG) $^ $(LIB)
+	$(CC) $(CFLAGS) -o $@ $^ $(LIB)
 
 main.o: src/main.c
 	$(CC) $(CFLAGS) -c $<
