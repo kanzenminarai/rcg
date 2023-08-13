@@ -1,13 +1,13 @@
 #include <array.h>
 
 int main() {
-  // setting ptr as a variable from "Array" type
-  Array ptr;
+  // setting ar as a variable from "Array" type
+  Array ar;
   
   // initializing the software
-  arraySize(&ptr);
-  arrayType(&ptr);  
-  arrayCases(&ptr);
-  arrayOutput(&ptr);
+  arraySize(&ar);
+  arrayType(&ar);
+  arrayCases(&ar);
+  arrayOutput(&ar);
   return 0;
 }
