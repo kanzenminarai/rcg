@@ -5,14 +5,15 @@
 void arrayCreation(Array *ptr) {
   size_t i;
   size_t count;
+  size_t range;
   
   // calculate the range and allocate
-  ptr->range = 0;
-  if(ptr->type & LOWER) ptr->range += 26;
-  if(ptr->type & UPPER) ptr->range += 26;
-  if(ptr->type & NUMBER) ptr->range += 10;
-  if(ptr->type & SYMBOL) ptr->range += 30;
-  ptr->genArray = malloc(ptr->range + 1);
+  range = 0;
+  if(ptr->type & LOWER) range += 26;
+  if(ptr->type & UPPER) range += 26;
+  if(ptr->type & NUMBER) range += 10;
+  if(ptr->type & SYMBOL) range += 30;
+  ptr->genArray = malloc(range + 1);
   
   // copy letters to the array that is used for generating the string
   count = 0;
@@ -54,9 +55,9 @@ void arrayCreation(Array *ptr) {
   srand(ts.tv_nsec);
   
   // allocate and generate the characters
-  ptr->genChar = malloc(ptr->length);
+  ptr->genChar = malloc(ptr->length + 1);
   for(i = 0; i < ptr->length; i++)
-    ptr->genChar[i] = ptr->genArray[rand() % ptr->range];
+    ptr->genChar[i] = ptr->genArray[rand() % range];
 
   // add a null terminator to the last element of the array
   ptr->genChar[i] = '\0';

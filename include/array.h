@@ -7,7 +7,6 @@
 #define SYMBOL 1<<3
 
 typedef struct {
-  int range;
   unsigned int length;
   unsigned short int type;
   char *genChar;
