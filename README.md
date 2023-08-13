@@ -40,7 +40,7 @@ cd rcg/
 make
 
 # compile and install
-make install
+sudo make install
 
 # optional: remove object files
 make clean
@@ -58,7 +58,7 @@ make run
 ### Uninstall
 ```sh
 # in case of a removal
-make uninstall
+sudo make uninstall
 ```
 
 ### Contribution

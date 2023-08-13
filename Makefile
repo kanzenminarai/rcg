@@ -3,7 +3,6 @@ CFLAGS = -Wall -I include/
 LIB = -l ncurses
 RM = rm -rfv
 MV = mv -v
-SU = sudo
 TARG = rcg
 BIN = /usr/local/bin/$(TARG)
 OBJ = main.o array.o creation.o cases.o
@@ -26,8 +25,8 @@ cases.o: src/cases.c
 	$(CC) $(CFLAGS) -c $<
 
 install: $(TARG)
-	$(SU) $(MV) $(TARG) $(BIN)
-	$(SU) chmod +x $(BIN)
+	$(MV) $(TARG) $(BIN)
+	chmod +x $(BIN)
 
 run: $(TARG)
 	$(BIN)
@@ -36,4 +35,4 @@ clean:
 	$(RM) $(OBJ)
 
 uninstall: clean
-	$(SU) $(RM) $(BIN)
+	$(RM) $(BIN)
