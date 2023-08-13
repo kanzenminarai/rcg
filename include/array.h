@@ -15,7 +15,6 @@ typedef struct {
   char *genChar;
   char *genArray;
   char *chars;
-  char choice;
 } Array;
 
 // creates a array and get the selected range of characters 
