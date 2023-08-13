@@ -1,8 +1,7 @@
 #include <array.h>
 
 int main() {
-  // setting ar as a variable from "Array" type
-  Array ar;
+  Array ar; // program state
   
   arraySize(&ar); // request the number of characters,
   arrayType(&ar); // request the types of characters to include,
