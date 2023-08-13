@@ -31,9 +31,6 @@ void arrayCases(Array *ptr);
 // prints the output of the generated characters
 void arrayOutput(Array *ptr);
 
-// repeat all or some process of other functions
-void arrayRepeat(Array *ptr);
-
 // get a seed for srand() according to Unix Time in nanoseconds
 void arrayGetNano(Array *ptr);
 

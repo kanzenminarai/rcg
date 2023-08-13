@@ -54,25 +54,4 @@ void arrayOutput(Array *ptr) {
   // freeing the allocated memory
   free(ptr->genArray);
   free(ptr->genChar);
-  
-  // getting the input
-  ptr->choice = getch();
-  arrayRepeat(ptr);
-  endwin();
-}
-
-void arrayRepeat(Array *ptr) {
-  // repeats according to input from ptr->choice
-  if(ptr->choice == 's') {
-    ptr->length = 0;
-    ptr->type = 0;
-    arraySize(ptr);
-    arrayType(ptr);
-    arrayCases(ptr);
-    arrayOutput(ptr);
-  }
-  else if(ptr->choice == 'r') {
-    arrayCases(ptr);
-    arrayOutput(ptr);
-  }
 }
