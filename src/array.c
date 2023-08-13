@@ -5,7 +5,7 @@ void arraySize(Array *ptr) {
   initscr();
 
   // getting the size of the array
-  do {
+  for(;;) {
     clear();
     printw("- Random Character Generator -\n"
     "Enter the length desired [unsigned integers only]: ");
@@ -16,12 +16,12 @@ void arraySize(Array *ptr) {
     printw("Value unknown.\n");
     refresh();
     napms(500);
-  } while(ptr->length < 1); // repeat if it's a unknown value
+  }
 }
 
 void arrayType(Array *ptr) {
   // getting the type of the characters
-  do {
+  for(;;) {
     clear();
     printw("Select the option specified below to generate [ascending order]:\n"
     "1 - lower [a-z]\n"
@@ -35,7 +35,7 @@ void arrayType(Array *ptr) {
     printw("Option unknown!\n");
     refresh();
     napms(500);
-  } while(ptr->type < 1); // repeat if it's a unknown value
+  }
 }
 
 void arrayOutput(Array *ptr) {
