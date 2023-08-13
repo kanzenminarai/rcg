@@ -14,8 +14,6 @@ int main() {
     ar.choice = getch();
     // repeats according to input from ptr->choice
     if(ar.choice == 's') {
-      ar.length = 0;
-      ar.type = 0;
       arraySize(&ar);
       arrayType(&ar);
       arrayCreation(&ar);

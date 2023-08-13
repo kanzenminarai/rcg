@@ -5,7 +5,8 @@
 void arraySize(Array *ptr) {
   initscr();
 
-  // getting the size of the array
+  // get the size of the array
+  ptr->length = 0;
   for(;;) {
     clear();
     printw("- Random Character Generator -\n"
@@ -23,7 +24,9 @@ void arraySize(Array *ptr) {
 void arrayType(Array *ptr) {
   char in[32];
   size_t i;
-  // getting the type of the characters
+  
+  // get the type of the characters
+  ptr->type = 0;
   for(;;) {
     clear();
     printw("Select the option specified below to generate [ascending order]:\n"
