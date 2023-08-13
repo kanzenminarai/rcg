@@ -47,28 +47,20 @@ void arrayCreation(Array *ptr) {
   // add a null terminator to the last element of the array
   ptr->genArray[ptr->count] = '\0';
 
-  arrayGetNano(ptr);
-  arraySort(ptr);
-}
-
-void arrayGetNano(Array *ptr) {
+  // initialize the random number generator with nanoseconds
   struct timespec ts;
   timespec_get(&ts, TIME_UTC);
-  srand(ts.tv_nsec); // attributing the seed number in nanoseconds
-}
-
-void arraySort(Array *ptr) {
-  // allocating memory according to the size
-  ptr->genChar = malloc(ptr->length); 
-
-  // attributing the positions get in rand() into ptr->size
+  srand(ts.tv_nsec);
+  
+  // allocate and generate the characters
+  ptr->genChar = malloc(ptr->length);
   for(ptr->count = 0; ptr->count < (ptr->length); ptr->count++) {
     ptr->size = rand() % ptr->range;
     ptr->genChar[ptr->count] = ptr->genArray[ptr->size];
   }
 
-  // adding a null value to the last element of the array
-  ptr->genChar[ptr->length] = '\0'; 
+  // add a null terminator to the last element of the array
+  ptr->genChar[ptr->length] = '\0';
   
   // counting the size of the array
   for(ptr->count = 0; ptr->genChar[ptr->count] != '\0'; ptr->count++);

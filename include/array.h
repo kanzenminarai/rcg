@@ -21,9 +21,6 @@ typedef struct {
 // creates a array and get the selected range of characters 
 void arrayCreation(Array *ptr);
 
-// sorts the elements of the generated array in arrayCreation()
-void arraySort(Array *ptr);
-
 // get the size of the array
 void arraySize(Array *ptr);
 
@@ -32,8 +29,5 @@ void arrayType(Array *ptr);
 
 // prints the output of the generated characters
 void arrayOutput(Array *ptr);
-
-// get a seed for srand() according to Unix Time in nanoseconds
-void arrayGetNano(Array *ptr);
 
 #endif // ARRAY_H
