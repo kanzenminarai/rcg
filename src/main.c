@@ -6,7 +6,7 @@ int main() {
   
   arraySize(&ar); // request the number of characters,
   arrayType(&ar); // request the types of characters to include,
-  arrayCases(&ar); // evaluating the request,
+  arrayCreation(&ar); // evaluating the request,
   arrayOutput(&ar); // and printing the result.
   
   for(;;) {
@@ -18,11 +18,11 @@ int main() {
       ar.type = 0;
       arraySize(&ar);
       arrayType(&ar);
-      arrayCases(&ar);
+      arrayCreation(&ar);
       arrayOutput(&ar);
     }
     else if(ar.choice == 'r') {
-      arrayCases(&ar);
+      arrayCreation(&ar);
       arrayOutput(&ar);
     }
     else break;

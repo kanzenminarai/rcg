@@ -21,6 +21,8 @@ void arraySize(Array *ptr) {
 }
 
 void arrayType(Array *ptr) {
+  char in[32];
+  size_t i;
   // getting the type of the characters
   for(;;) {
     clear();
@@ -30,7 +32,26 @@ void arrayType(Array *ptr) {
     "3 - numbers [0-9]\n"
     "4 - symbols ['!@#$...]\n");
     refresh();
-    scanw("%hi", &(ptr->type));
+    getnstr(in, sizeof(in));
+    for(i = 0; in[i]; i++){
+      switch(in[i]){
+        case '1':
+          ptr->type |= T_LOWER;
+          break;
+          
+        case '2':
+          ptr->type |= T_UPPER;
+          break;
+          
+        case '3':
+          ptr->type |= T_NUMBER;
+          break;
+          
+        case '4':
+          ptr->type |= T_SYMBOL;
+          break;
+      }
+    }
 
     if(ptr->type > 0) break; // breaks the loop in case of a known value
     printw("Option unknown!\n");

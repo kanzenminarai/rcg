@@ -2,24 +2,49 @@
 #include <time.h>
 #include <array.h>
 
-void arrayCreation(int array1, int array2, int array3, int array4, Array *ptr) {
-  ptr->chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'|!@#$%&*()-_=+`{}[]^~<>,./?;:";
+void arrayCreation(Array *ptr) {
+  size_t i;
   
-  // getting the range and allocating to the memory
-  ptr->range = (array2 - array1) + (array4 - array3);
+  // calculate the range and allocate
+  ptr->range = 0;
+  if (ptr->type & T_LOWER) ptr->range += 26;
+  if (ptr->type & T_UPPER) ptr->range += 26;
+  if (ptr->type & T_NUMBER) ptr->range += 10;
+  if (ptr->type & T_SYMBOL) ptr->range += 30;
   ptr->genArray = malloc(ptr->range + 1);
-
-  // attributes if the value is !=0
-  if(array2 != 0)
-    for(ptr->count = 0; array1 < array2; array1++, ptr->count++) // counts if array1 is lower than array2
-      ptr->genArray[ptr->count] = ptr->chars[array1];
-
-  // attributes if both values are != 0
-  if(array2 != 0 && array4 != 0)
-    for(ptr->count = array2; array3 < array4; array3++, ptr->count++)
-      ptr->genArray[ptr->count] = ptr->chars[array3];
   
-  // adding a null value to the last element of the array
+  // copy letters to the array that is used for generating the string
+  ptr->count = 0;
+  if (ptr->type & T_LOWER) {
+    char letters[] = "abcdefghijklmnopqrstuvwxyz";
+    for(i = 0; i < 26; i++){
+      ptr->genArray[ptr->count] = letters[i];
+      ptr->count++;
+    }
+  }
+  if (ptr->type & T_UPPER) {
+    char letters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for(i = 0; i < 26; i++){
+      ptr->genArray[ptr->count] = letters[i];
+      ptr->count++;
+    }
+  }
+  if (ptr->type & T_NUMBER) {
+    char letters[] = "0123456789";
+    for(i = 0; i < 10; i++){
+      ptr->genArray[ptr->count] = letters[i];
+      ptr->count++;
+    }
+  }
+  if (ptr->type & T_SYMBOL) {
+    char letters[] = "'|!@#$%&*()-_=+`{}[]^~<>,./?;:";
+    for(i = 0; i < 30; i++){
+      ptr->genArray[ptr->count] = letters[i];
+      ptr->count++;
+    }
+  }
+  
+  // add a null terminator to the last element of the array
   ptr->genArray[ptr->count] = '\0';
 
   arrayGetNano(ptr);
