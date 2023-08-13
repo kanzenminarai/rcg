@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -I include/
 LIB = -l ncurses
-RM = rm -rfv
+RM = rm -f
 TARG = rcg
 BINDIR = /usr/local/bin
 OBJ = main.o array.o creation.o cases.o
