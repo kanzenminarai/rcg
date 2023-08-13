@@ -7,7 +7,6 @@
 #define T_SYMBOL 1<<3
 
 typedef struct {
-  int size;
   int range;
   int count;
   unsigned int length;

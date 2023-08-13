@@ -54,10 +54,8 @@ void arrayCreation(Array *ptr) {
   
   // allocate and generate the characters
   ptr->genChar = malloc(ptr->length);
-  for(ptr->count = 0; ptr->count < (ptr->length); ptr->count++) {
-    ptr->size = rand() % ptr->range;
-    ptr->genChar[ptr->count] = ptr->genArray[ptr->size];
-  }
+  for(ptr->count = 0; ptr->count < ptr->length; ptr->count++)
+    ptr->genChar[ptr->count] = ptr->genArray[rand() % ptr->range];
 
   // add a null terminator to the last element of the array
   ptr->genChar[ptr->length] = '\0';
