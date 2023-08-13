@@ -3,26 +3,21 @@
 
 int main() {
   Array ar; // program state
-  
-  arraySize(&ar); // request the number of characters,
-  arrayType(&ar); // request the types of characters to include,
-  arrayCreation(&ar); // evaluating the request,
-  arrayOutput(&ar); // and printing the result.
+  int repeat = 0;
   
   for(;;) {
+    if (!repeat) {
+      arraySize(&ar); // request the number of characters,
+      arrayType(&ar); // request the types of characters to include,
+    }
+    arrayCreation(&ar); // evaluating the request,
+    arrayOutput(&ar); // and printing the result.
+    
     // check if we need to repeat
     ar.choice = getch();
     // repeats according to input from ptr->choice
-    if(ar.choice == 's') {
-      arraySize(&ar);
-      arrayType(&ar);
-      arrayCreation(&ar);
-      arrayOutput(&ar);
-    }
-    else if(ar.choice == 'r') {
-      arrayCreation(&ar);
-      arrayOutput(&ar);
-    }
+    if(ar.choice == 's') repeat = 0;
+    else if(ar.choice == 'r') repeat = 1;
     else break;
   }
   endwin();
