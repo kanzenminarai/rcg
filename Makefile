@@ -3,7 +3,7 @@ CFLAGS = -Wall -I include/
 LIB = -l ncurses
 RM = rm -rfv
 TARG = rcg
-BIN = /usr/local/bin/$(TARG)
+BINDIR = /usr/local/bin
 OBJ = main.o array.o creation.o cases.o
 
 all: $(TARG)
@@ -24,13 +24,13 @@ cases.o: src/cases.c
 	$(CC) $(CFLAGS) -c $<
 
 install: $(TARG)
-	install $(TARG) $(BIN)
+	install $(TARG) $(BINDIR)/$(TARG)
 
 run: $(TARG)
-	$(BIN)
+	./$(TARG)
 
 clean:
-	$(RM) $(OBJ)
+	$(RM) $(OBJ) $(TARG)
 
-uninstall: clean
-	$(RM) $(BIN)
+uninstall:
+	$(RM) $(BINDIR)/$(TARG)
