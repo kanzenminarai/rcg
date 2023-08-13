@@ -1,10 +1,10 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#define T_LOWER 1<<0
-#define T_UPPER 1<<1
-#define T_NUMBER 1<<2
-#define T_SYMBOL 1<<3
+#define LOWER 1<<0
+#define UPPER 1<<1
+#define NUMBER 1<<2
+#define SYMBOL 1<<3
 
 typedef struct {
   int range;

@@ -39,19 +39,19 @@ void arrayType(Array *ptr) {
     for(i = 0; in[i]; i++){
       switch(in[i]){
         case '1':
-          ptr->type |= T_LOWER;
+          ptr->type |= LOWER;
           break;
           
         case '2':
-          ptr->type |= T_UPPER;
+          ptr->type |= UPPER;
           break;
           
         case '3':
-          ptr->type |= T_NUMBER;
+          ptr->type |= NUMBER;
           break;
           
         case '4':
-          ptr->type |= T_SYMBOL;
+          ptr->type |= SYMBOL;
           break;
       }
     }
