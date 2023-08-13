@@ -48,8 +48,3 @@ void arraySort(Array *ptr) {
   // counting the size of the array
   for(ptr->count = 0; ptr->genChar[ptr->count] != '\0'; ptr->count++);
 }
-
-void arrayFreeMem(Array *ptr) {
-  free(ptr->genArray);
-  free(ptr->genChar);
-}

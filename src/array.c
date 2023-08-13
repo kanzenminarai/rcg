@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <ncurses.h>
 #include <array.h>
 
@@ -50,7 +51,9 @@ void arrayOutput(Array *ptr) {
   ptr->genArray, ptr->count, ptr->genChar, ptr->count * 8);
   refresh();
 
-  arrayFreeMem(ptr); // freeing the allocated memory
+  // freeing the allocated memory
+  free(ptr->genArray);
+  free(ptr->genChar);
   
   // getting the input
   ptr->choice = getch();
