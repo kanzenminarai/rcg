@@ -4,7 +4,7 @@ LIB = -l ncurses
 RM = rm -f
 TARG = rcg
 BINDIR = /usr/local/bin
-OBJ = main.o array.o creation.o cases.o
+OBJ = main.o array.o creation.o
 
 all: $(TARG)
 
