@@ -2,7 +2,6 @@ CC = gcc
 CFLAGS = -Wall -I include/
 LIB = -l ncurses
 RM = rm -rfv
-MV = mv -v
 TARG = rcg
 BIN = /usr/local/bin/$(TARG)
 OBJ = main.o array.o creation.o cases.o
@@ -25,8 +24,7 @@ cases.o: src/cases.c
 	$(CC) $(CFLAGS) -c $<
 
 install: $(TARG)
-	$(MV) $(TARG) $(BIN)
-	chmod +x $(BIN)
+	install $(TARG) $(BIN)
 
 run: $(TARG)
 	$(BIN)
