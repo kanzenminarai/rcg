@@ -12,7 +12,7 @@ void arraySize(Array *ptr) {
     printw("- Random Character Generator -\n"
     "Enter the length desired [unsigned integers only]: ");
     refresh();
-    scanw("%i", &(ptr->length));
+    scanw("%u", &(ptr->length));
 
     if(ptr->length > 0) break; // breaks the loop in case of a known value
     printw("Value unknown.\n");
