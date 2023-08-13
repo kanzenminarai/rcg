@@ -6,7 +6,7 @@ int main() {
   int repeat = 0;
   
   for(;;) {
-    if (!repeat) {
+    if(!repeat) {
       arraySize(&ar); // request the number of characters,
       arrayType(&ar); // request the types of characters to include,
     }
