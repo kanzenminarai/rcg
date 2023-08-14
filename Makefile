@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -O2 -I include/
+CFLAGS = -Wall -Wextra -pedantic -I include/
 LIB = -l ncurses
 RM = rm -f
 TARG = rcg
