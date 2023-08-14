@@ -11,7 +11,7 @@
 
 ### About
 RCG is a open source software that generates random assortments of characters, like letters, numbers and symbols according to the
-inserted lenght and type of characters selected, all through the input.
+inserted length and type of characters selected, all through the input.
 
 https://github.com/KanzenTaiwa/rcg/assets/120531165/c6787a2f-31de-4e86-aa95-384f26271783
 
@@ -36,29 +36,29 @@ git clone --verbose https://github.com/KanzenTaiwa/rcg.git
 # enter inside of rcg directory
 cd rcg/
 
-# optional: only compile
+# compile
 make
 
 # compile and install
-make install
+sudo make install
 
-# optional: remove object files
+# remove built files
 make clean
 ```
 
 ### Execute
 ```sh
-# execute the software (globally installed version)
+# run the installed software
 rcg
 
-# or use make (locally built version)
-make run
+# run the locally built software
+./rcg
 ```
 
 ### Uninstall
 ```sh
-# in case of a removal
-make uninstall
+# delete the installed software
+sudo make uninstall
 ```
 
 ### Contribution

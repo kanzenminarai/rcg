@@ -1,27 +1,33 @@
+#include <stdlib.h>
 #include <ncurses.h>
 #include <array.h>
 
 void arraySize(Array *ptr) {
   initscr();
 
-  // getting the size of the array
-  do {
+  // get the size of the array
+  ptr->length = 0;
+  for(;;) {
     clear();
     printw("- Random Character Generator -\n"
     "Enter the length desired [unsigned integers only]: ");
     refresh();
-    scanw("%i", &(ptr->length));
+    scanw("%u", &(ptr->length));
 
     if(ptr->length > 0) break; // breaks the loop in case of a known value
     printw("Value unknown.\n");
     refresh();
     napms(500);
-  } while(ptr->length < 1); // repeat if it's a unknown value
+  }
 }
 
 void arrayType(Array *ptr) {
-  // getting the type of the characters
-  do {
+  char in[32];
+  size_t i;
+  
+  // get the type of the characters
+  ptr->type = 0;
+  for(;;) {
     clear();
     printw("Select the option specified below to generate [ascending order]:\n"
     "1 - lower [a-z]\n"
@@ -29,13 +35,32 @@ void arrayType(Array *ptr) {
     "3 - numbers [0-9]\n"
     "4 - symbols ['!@#$...]\n");
     refresh();
-    scanw("%hi", &(ptr->type));
+    getnstr(in, sizeof(in));
+    for(i = 0; in[i]; i++){
+      switch(in[i]){
+        case '1':
+          ptr->type |= LOWER;
+          break;
+          
+        case '2':
+          ptr->type |= UPPER;
+          break;
+          
+        case '3':
+          ptr->type |= NUMBER;
+          break;
+          
+        case '4':
+          ptr->type |= SYMBOL;
+          break;
+      }
+    }
 
     if(ptr->type > 0) break; // breaks the loop in case of a known value
     printw("Option unknown!\n");
     refresh();
     napms(500);
-  } while(ptr->type < 1); // repeat if it's a unknown value
+  }
 }
 
 void arrayOutput(Array *ptr) {
@@ -47,29 +72,10 @@ void arrayOutput(Array *ptr) {
   "Press \"s\" to start over\n"
   "Press \"r\" to recreate\n"
   "Press any other key to exit...",
-  ptr->genArray, ptr->count, ptr->genChar, ptr->count * 8);
+  ptr->genArray, ptr->length, ptr->genChar, ptr->length * 8);
   refresh();
 
-  arrayFreeMem(ptr); // freeing the allocated memory
-  
-  // getting the input
-  ptr->choice = getch();
-  arrayRepeat(ptr);
-  endwin();
-}
-
-void arrayRepeat(Array *ptr) {
-  // repeats according to input from ptr->choice
-  if(ptr->choice == 's') {
-    ptr->length = 0;
-    ptr->type = 0;
-    arraySize(ptr);
-    arrayType(ptr);
-    arrayCases(ptr);
-    arrayOutput(ptr);
-  }
-  else if(ptr->choice == 'r') {
-    arrayCases(ptr);
-    arrayOutput(ptr);
-  }
+  // freeing the allocated memory
+  free(ptr->genArray);
+  free(ptr->genChar);
 }

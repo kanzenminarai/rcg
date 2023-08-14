@@ -2,54 +2,63 @@
 #include <time.h>
 #include <array.h>
 
-void arrayCreation(int array1, int array2, int array3, int array4, Array *ptr) {
-  ptr->chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'|!@#$%&*()-_=+`{}[]^~<>,./?;:";
+void arrayCreation(Array *ptr) {
+  size_t i;
+  size_t count;
+  size_t range;
   
-  // getting the range and allocating to the memory
-  ptr->range = (array2 - array1) + (array4 - array3);
-  ptr->genArray = malloc(ptr->range + 1);
-
-  // attributes if the value is !=0
-  if(array2 != 0)
-    for(ptr->count = 0; array1 < array2; array1++, ptr->count++) // counts if array1 is lower than array2
-      ptr->genArray[ptr->count] = ptr->chars[array1];
-
-  // attributes if both values are != 0
-  if(array2 != 0 && array4 != 0)
-    for(ptr->count = array2; array3 < array4; array3++, ptr->count++)
-      ptr->genArray[ptr->count] = ptr->chars[array3];
+  // calculate the range and allocate
+  range = 0;
+  if(ptr->type & LOWER) range += 26;
+  if(ptr->type & UPPER) range += 26;
+  if(ptr->type & NUMBER) range += 10;
+  if(ptr->type & SYMBOL) range += 30;
+  ptr->genArray = malloc(range + 1);
   
-  // adding a null value to the last element of the array
-  ptr->genArray[ptr->count] = '\0';
+  // copy letters to the array that is used for generating the string
+  count = 0;
+  if(ptr->type & LOWER) {
+    char letters[] = "abcdefghijklmnopqrstuvwxyz";
+    for(i = 0; i < 26; i++){
+      ptr->genArray[count] = letters[i];
+      count++;
+    }
+  }
+  if(ptr->type & UPPER) {
+    char letters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for(i = 0; i < 26; i++){
+      ptr->genArray[count] = letters[i];
+      count++;
+    }
+  }
+  if(ptr->type & NUMBER) {
+    char letters[] = "0123456789";
+    for(i = 0; i < 10; i++){
+      ptr->genArray[count] = letters[i];
+      count++;
+    }
+  }
+  if(ptr->type & SYMBOL) {
+    char letters[] = "'|!@#$%&*()-_=+`{}[]^~<>,./?;:";
+    for(i = 0; i < 30; i++){
+      ptr->genArray[count] = letters[i];
+      count++;
+    }
+  }
+  
+  // add a null terminator to the last element of the array
+  ptr->genArray[count] = '\0';
 
-  arrayGetNano(ptr);
-  arraySort(ptr);
-}
-
-void arrayGetNano(Array *ptr) {
+  // initialize the random number generator with nanoseconds
   struct timespec ts;
   timespec_get(&ts, TIME_UTC);
-  srand(ts.tv_nsec); // attributing the seed number in nanoseconds
-}
-
-void arraySort(Array *ptr) {
-  // allocating memory according to the size
-  ptr->genChar = malloc(ptr->length); 
-
-  // attributing the positions get in rand() into ptr->size
-  for(ptr->count = 0; ptr->count < (ptr->length); ptr->count++) {
-    ptr->size = rand() % ptr->range;
-    ptr->genChar[ptr->count] = ptr->genArray[ptr->size];
-  }
-
-  // adding a null value to the last element of the array
-  ptr->genChar[ptr->length] = '\0'; 
+  srand(ts.tv_nsec);
   
-  // counting the size of the array
-  for(ptr->count = 0; ptr->genChar[ptr->count] != '\0'; ptr->count++);
-}
+  // allocate and generate the characters
+  ptr->genChar = malloc(ptr->length + 1);
+  for(i = 0; i < ptr->length; i++)
+    ptr->genChar[i] = ptr->genArray[rand() % range];
 
-void arrayFreeMem(Array *ptr) {
-  free(ptr->genArray);
-  free(ptr->genChar);
+  // add a null terminator to the last element of the array
+  ptr->genChar[i] = '\0';
 }
