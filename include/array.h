@@ -5,13 +5,15 @@
 #define UPPER 1<<1
 #define NUMBER 1<<2
 #define SYMBOL 1<<3
+#define LETTERS 26
+#define NUMBERS 10
+#define SYMBOLS 30
 
 typedef struct {
   unsigned int length;
   unsigned short int type;
   char *genChar;
   char *genArray;
-  char *chars;
 } Array;
 
 // creates a array and get the selected range of characters 
