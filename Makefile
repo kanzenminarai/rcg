@@ -1,24 +1,24 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -I include/
-LIB = -l ncurses
-RM = rm -f
-TARG = rcg
-BINDIR = /usr/local/bin
-OBJ = src/main.o src/array.o src/creation.o src/rand.o
+# CC =
+CFLAGS = -Wall -Wextra -pedantic -Iinclude/
+LDFLAGS = -lncurses
+OBJS = main.o array.o creation.o rand.o
+TARGET = rcg
+PREFIX = /usr/local
 
-all: $(TARG)
+all: $(TARGET)
 
-$(TARG): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^ $(LIB)
+$(TARGET): $(OBJS)
+	$(CC) -o $@ $(OBJS) $(LDFLAGS)
 
-install: $(TARG)
-	install $(TARG) $(BINDIR)/$(TARG)
-
-run: $(TARG)
-	./$(TARG)
+%.o: src/%.c
+	$(CC) $(CFLAGS) -c $<
 
 clean:
-	$(RM) $(OBJ) $(TARG)
+	rm -f $(OBJS) $(TARGET)
 
-uninstall: clean
-	$(RM) $(BINDIR)/$(TARG)
+
+install: $(TARGET)
+	install -Dm755 $(TARGET) $(DESTDIR)$(PREFIX)/bin/$(TARGET)
+
+uninstall:
+	rm -f $(DESTDIR)$(PREFIX)/bin/$(TARGET)
