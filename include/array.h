@@ -8,6 +8,7 @@
 #define LETTERS 26
 #define NUMBERS 10
 #define SYMBOLS 30
+#define EOT '\40'
 
 typedef struct {
   unsigned int length;
