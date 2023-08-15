@@ -3,22 +3,24 @@
 
 int main() {
   Array ar; // program state
-  int repeat = 0;
+  bool repeat = 0;
   char choice;
   
+  initscr();
   for(;;) {
     if(!repeat) {
-      arraySize(&ar); // request the number of characters,
-      arrayType(&ar); // request the types of characters to include,
+      arraySize(&ar); // request the number of characters
+      arrayType(&ar); // request the types of characters to include
     }
-    arrayCreation(&ar); // evaluating the request,
-    arrayOutput(&ar); // and printing the result.
+    arrayCreation(&ar); // evaluating the request
+    arrayOutput(&ar); // printing the result
     
-    // check if we need to repeat
+    // check if it needs to repeat
     choice = getch();
+
     // repeats according to input from ptr->choice
-    if(choice == 's') repeat = 0;
-    else if(choice == 'r') repeat = 1;
+    if(choice == 's') repeat = FALSE;
+    else if(choice == 'r') repeat = TRUE;
     else break;
   }
   endwin();
