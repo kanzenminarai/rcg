@@ -54,7 +54,8 @@ void arrayType(Array *ptr) {
           break;
         
         default:
-          if(input[i] != EOT) {
+          // '\04' represents EOT
+          if(input[i] != '\04') {
             printw("Unknown option [%c]!\n", input[i]);
             refresh();
             napms(800);
