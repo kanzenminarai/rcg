@@ -9,7 +9,7 @@ void arraySize(Array *ptr) {
   for(;;) {
     clear();
     printw("- Random Character Generator -\n"
-    "Enter the length desired [unsigned integers only]: ");
+      "Enter the length desired [unsigned integers only]: ");
     refresh();
     scanw("%u", &(ptr->length));
 
@@ -29,13 +29,13 @@ void arrayType(Array *ptr) {
   for(;;) { 
     clear();
     printw("Select the option specified below to generate [any order]:\n"
-    "1 - lower [a-z]\n"
-    "2 - upper [A-Z]\n"
-    "3 - numbers [0-9]\n"
-    "4 - symbols ['!@#$...]\n");
+      "1 - lower [a-z]\n"
+      "2 - upper [A-Z]\n"
+      "3 - numbers [0-9]\n"
+      "4 - symbols ['!@#$...]\n");
     refresh();
     getnstr(input, sizeof(input));
-    for(i = 0; input[i]; i++){
+    for(i = 0; input[i]; i++) {
       switch(input[i]){
         case '1':
           ptr->type |= LOWER;
@@ -54,7 +54,7 @@ void arrayType(Array *ptr) {
           break;
         
         default:
-          if(input[i] != '\04') {
+          if(input[i] != EOT) {
             printw("Unknown option [%c]!\n", input[i]);
             refresh();
             napms(800);
@@ -70,12 +70,12 @@ void arrayOutput(Array *ptr) {
   // printing the output
   clear();
   printw("Selected characters: %s\n"
-  "%i characters has been generated: %s\n"
-  "Size in bits: %i\n\n"
-  "Press \"s\" to start over\n"
-  "Press \"r\" to recreate\n"
-  "Press any other key to exit...",
-  ptr->genArray, ptr->length, ptr->genChar, ptr->length * 8);
+    "%i characters has been generated: %s\n"
+    "Size in bits: %i\n\n"
+    "Press \"s\" to start over\n"
+    "Press \"r\" to recreate\n"
+    "Press any other key to exit...",
+    ptr->genArray, ptr->length, ptr->genChar, ptr->length * 8);
   refresh();
 
   // freeing the allocated memory
