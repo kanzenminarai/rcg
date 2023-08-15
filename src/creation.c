@@ -3,51 +3,38 @@
 #include <array.h>
 
 void arrayCreation(Array *ptr) {
-  size_t i;
-  size_t count;
-  size_t range;
-  
-  // calculate the range and allocate
+  size_t x, y, range;
+  char *chars;
   range = 0;
-  if(ptr->type & LOWER) range += 26;
-  if(ptr->type & UPPER) range += 26;
-  if(ptr->type & NUMBER) range += 10;
-  if(ptr->type & SYMBOL) range += 30;
+  y = 0;
+
+  // calculate the range and allocate
+  if(ptr->type & LOWER) range += LETTERS;
+  if(ptr->type & UPPER) range += LETTERS;
+  if(ptr->type & NUMBER) range += NUMBERS;
+  if(ptr->type & SYMBOL) range += SYMBOLS;
   ptr->genArray = malloc(range + 1);
   
-  // copy letters to the array that is used for generating the string
-  count = 0;
+  // copy chars to the array that is used for generating the string
   if(ptr->type & LOWER) {
-    char letters[] = "abcdefghijklmnopqrstuvwxyz";
-    for(i = 0; i < 26; i++){
-      ptr->genArray[count] = letters[i];
-      count++;
-    }
+    chars = "abcdefghijklmnopqrstuvwxyz";
+    for(x = 0; x < LETTERS; x++, y++) ptr->genArray[y] = chars[x];
   }
   if(ptr->type & UPPER) {
-    char letters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    for(i = 0; i < 26; i++){
-      ptr->genArray[count] = letters[i];
-      count++;
-    }
+    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for(x = 0; x < LETTERS; x++, y++) ptr->genArray[y] = chars[x];
   }
   if(ptr->type & NUMBER) {
-    char letters[] = "0123456789";
-    for(i = 0; i < 10; i++){
-      ptr->genArray[count] = letters[i];
-      count++;
-    }
+    chars = "0123456789";
+    for(x = 0; x < NUMBERS; x++, y++) ptr->genArray[y] = chars[x];
   }
   if(ptr->type & SYMBOL) {
-    char letters[] = "'|!@#$%&*()-_=+`{}[]^~<>,./?;:";
-    for(i = 0; i < 30; i++){
-      ptr->genArray[count] = letters[i];
-      count++;
-    }
+    chars = "'|!@#$%&*()-_=+`{}[]^~<>,./?;:";
+    for(x = 0; x < SYMBOLS; x++, y++) ptr->genArray[y] = chars[x];
   }
   
   // add a null terminator to the last element of the array
-  ptr->genArray[count] = '\0';
+  ptr->genArray[y] = '\0';
 
   // initialize the random number generator with nanoseconds
   struct timespec ts;
@@ -56,9 +43,8 @@ void arrayCreation(Array *ptr) {
   
   // allocate and generate the characters
   ptr->genChar = malloc(ptr->length + 1);
-  for(i = 0; i < ptr->length; i++)
-    ptr->genChar[i] = ptr->genArray[rand() % range];
+  for(x = 0; x < ptr->length; x++) ptr->genChar[x] = ptr->genArray[rand() % range];
 
   // add a null terminator to the last element of the array
-  ptr->genChar[i] = '\0';
+  ptr->genChar[x] = '\0';
 }
