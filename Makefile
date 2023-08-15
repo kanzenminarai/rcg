@@ -20,5 +20,5 @@ run: $(TARG)
 clean:
 	$(RM) $(OBJ) $(TARG)
 
-uninstall:
+uninstall: clean
 	$(RM) $(BINDIR)/$(TARG)
