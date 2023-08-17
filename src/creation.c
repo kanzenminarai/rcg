@@ -1,12 +1,10 @@
 #include <stdlib.h>
-#include <time.h>
 #include <array.h>
+#include <rand.h>
 
 void arrayCreation(Array *ptr) {
-  size_t x, y, range;
+  size_t x, y = 0, range = 0;
   char *chars;
-  range = 0;
-  y = 0;
 
   // calculate the range and allocate
   if(ptr->type & LOWER) range += LETTERS;
@@ -36,14 +34,9 @@ void arrayCreation(Array *ptr) {
   // add a null terminator to the last element of the array
   ptr->genArray[y] = '\0';
 
-  // initialize the random number generator with nanoseconds
-  struct timespec ts;
-  timespec_get(&ts, TIME_UTC);
-  srand(ts.tv_nsec);
-  
   // allocate and generate the characters
   ptr->genChar = malloc(ptr->length + 1);
-  for(x = 0; x < ptr->length; x++) ptr->genChar[x] = ptr->genArray[rand() % range];
+  for(x = 0; x < ptr->length; x++) ptr->genChar[x] = ptr->genArray[getNextRandom(range)];
 
   // add a null terminator to the last element of the array
   ptr->genChar[x] = '\0';
