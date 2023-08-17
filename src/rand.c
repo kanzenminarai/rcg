@@ -3,36 +3,26 @@
 #include <sys/random.h>
 #include <rand.h>
 
-#define BUFSIZE (1<<8)
-#define BUFELEMENTS (BUFSIZE/sizeof(unsigned int))
+// the buffer size BUF_BYTES must be a power of two in this implementation
+// 256 is chosen because it's the largest value where getrandom(2) is guarenteed to never fail
+#define BUF_BYTES (1 << 8)
+#define BUF_SIZE (BUF_BYTES / sizeof(unsigned int))
+#define BUF_MASK (BUF_SIZE - 1)
 
 typedef struct {
-  size_t ptr;
-  union {
-    char c[BUFSIZE];
-    unsigned int n[BUFELEMENTS];
-  } b;
+  size_t offset;
+  unsigned int n[BUF_SIZE];
 } RandomBuffer;
 
-static RandomBuffer buf = { .ptr = 0 };
+static RandomBuffer buf = {.offset = 0};
 
-// This uses the getrandom(2) syscall to generate random bytes, and then returns
-// them as integers in the desired range.
-// getrandom(2) doesn't return any number on its own, but simply fills a buffer with random bytes.
-//
-// The buffer is 256 bytes as this is the largest value where getrandom(2) is guarenteed to never fail.
-unsigned int getNextRandom(unsigned int max) {
+// maximum value is excluded from range
+unsigned int getNextRandom(unsigned int exclusive_max) {
   unsigned int n;
   do {
-    // only refill the buffer once expended to reduce the number of potentially expensive syscalls made
-    if (buf.ptr == 0) getrandom(buf.b.c, BUFSIZE, 0); 
-
-    n = buf.b.n[buf.ptr]; // get next random number from buffer
-
-    // increment the pointer, mod number of elements
-    // using AND is the same as modulo *as long as BUFELEMENTS is a power of two*, and much faster
-    buf.ptr = (buf.ptr + 1) & (BUFELEMENTS - 1); 
-
-  } while (n >= UINT_MAX - (UINT_MAX % max)); // reject values that would create modulo bias
-  return n % max;
+    if (buf.offset == 0) getrandom(buf.n, BUF_BYTES, 0);
+    n = buf.n[buf.offset];
+    buf.offset = (buf.offset + 1) & BUF_MASK; 
+  } while (n >= UINT_MAX - (UINT_MAX % exclusive_max)); // reject values that could cause modulo bias
+  return n % exclusive_max;
 }
