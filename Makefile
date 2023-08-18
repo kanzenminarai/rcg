@@ -4,7 +4,7 @@ LIB = -l ncurses
 RM = rm -f
 TARG = rcg
 BINDIR = /usr/local/bin
-OBJ = src/main.o src/array.o src/creation.o
+OBJ = src/main.o src/array.o src/creation.o src/rand.o
 
 all: $(TARG)
 
