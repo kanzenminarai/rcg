@@ -57,10 +57,10 @@ rcg
 
 ### Uninstall
 ```sh
-# delete the installed software and leave built files
+# delete the software and leave built files
 sudo make uninstall
 
-# delete the entire installed software and the built files
+# delete the entire software and built files
 sudo make clean uninstall
 ```
 
