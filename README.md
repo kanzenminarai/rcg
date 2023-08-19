@@ -52,13 +52,16 @@ make clean
 rcg
 
 # run the locally built software
-make run
+./rcg
 ```
 
 ### Uninstall
 ```sh
-# delete the entire installed software and the built files
+# delete the installed software and leave built files
 sudo make uninstall
+
+# delete the entire installed software and the built files
+sudo make clean uninstall
 ```
 
 ### Contribution
