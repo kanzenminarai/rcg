@@ -19,12 +19,12 @@ inserted length and type of characters selected, all through the input.
 RCG was created and tested on Linux (x86_64), install the following libraries according to your package manager and distribution.
 ```sh
 # using apt (debian-based distros)
-sudo apt install libncurses-dev make gcc
+sudo apt install libncurses-dev make clang llvm
 ```
 
 ```sh
 # using pacman (arch linux based distros)
-sudo pacman -S ncurses make gcc
+sudo pacman -S ncurses make clang llvm
 ```
 
 ### Install

@@ -1,4 +1,4 @@
-# CC =
+CC = clang
 CFLAGS = -Wall -Wextra -pedantic -Iinclude/
 LDFLAGS = -lncurses
 OBJS = main.o array.o creation.o rand.o
