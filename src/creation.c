@@ -3,7 +3,9 @@
 #include <rand.h>
 
 void arrayCreation(Array *ptr) {
-  size_t x, y = 0, range = 0;
+  size_t x, y, range;
+  y = 0;
+  range = 0;
   char *chars;
 
   // calculate the range and allocate
@@ -15,19 +17,19 @@ void arrayCreation(Array *ptr) {
   
   // copy chars to the array that is used for generating the string
   if(ptr->type & LOWER) {
-    chars = "abcdefghijklmnopqrstuvwxyz";
+    chars = "abcdefghijklmnopqrstuvwxyz"; //lower letters
     for(x = 0; x < LETTERS; x++, y++) ptr->genArray[y] = chars[x];
   }
   if(ptr->type & UPPER) {
-    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //upper letters
     for(x = 0; x < LETTERS; x++, y++) ptr->genArray[y] = chars[x];
   }
   if(ptr->type & NUMBER) {
-    chars = "0123456789";
+    chars = "0123456789"; //nums
     for(x = 0; x < NUMBERS; x++, y++) ptr->genArray[y] = chars[x];
   }
   if(ptr->type & SYMBOL) {
-    chars = "'|!@#$%&*()-_=+`{}[]^~<>,./?;:";
+    chars = "'|!@#$%&*()-_=+`{}[]^~<>,./?;:"; //chars
     for(x = 0; x < SYMBOLS; x++, y++) ptr->genArray[y] = chars[x];
   }
   
