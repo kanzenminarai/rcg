@@ -2,18 +2,18 @@
 #include <array.h>
 
 int main() {
-  Array ar; // program state
+  Array array; // program state
   bool repeat = 0;
   char choice;
   
   initscr();
   for(;;) {
     if(!repeat) {
-      arraySize(&ar); // request the number of characters
-      arrayType(&ar); // request the types of characters to include
+      arraySize(&array); // request the number of characters
+      arrayType(&array); // request the types of characters to include
     }
-    arrayCreation(&ar); // evaluating the request
-    arrayOutput(&ar); // printing the result
+    arrayCreation(&array); // evaluating the request
+    arrayOutput(&array); // printing the result
     
     // check if it needs to repeat
     choice = getch();
