@@ -1,85 +1,93 @@
 #include <stdlib.h>
 #include <ncurses.h>
 #include <array.h>
+#include <rand.h>
+#define LOWER 1 << 0 // 1 in decimal
+#define UPPER 1 << 1 // 2 in decimal
+#define NUMBER 1 << 2 // 4 in decimal
+#define SYMBOL 1 << 3 // 8 in decimal
+#define LETTERS 26 // range of upper and lower letters
+#define NUMBERS 10 // range of numbers
+#define SYMBOLS 30 // range of symbols
 
-void arraySize(Array *ptr) {
-  ptr->length = 0;
-  
-  // get the size of the array
-  for(;;) {
-    clear();
-    printw("- Random Character Generator -\n"
-      "Enter the length desired [unsigned integers only]: ");
-    refresh();
-    scanw("%u", &(ptr->length));
-
-    if(ptr->length > 0) break; // breaks the loop in case of a known value
-    printw("Value unknown!\n");
-    refresh();
-    napms(500);
-  }
-}
-
-void arrayType(Array *ptr) {
-  char input[4];
-  size_t i;
+void charOptions(const char *option, Array *ptr) {
   ptr->type = 0;
-  
-  // get the type of the characters
-  for(;;) { 
-    clear();
-    printw("Select the option specified below to generate [any order]:\n"
-      "1 - lower [a-z]\n"
-      "2 - upper [A-Z]\n"
-      "3 - numbers [0-9]\n"
-      "4 - symbols ['!@#$...]\n");
-    refresh();
-    getnstr(input, sizeof(input));
-    for(i = 0; input[i]; i++) {
-      switch(input[i]){
-        case '1':
-          ptr->type |= LOWER;
-          break;
-          
-        case '2':
-          ptr->type |= UPPER;
-          break;
-          
-        case '3':
-          ptr->type |= NUMBER;
-          break;
-          
-        case '4':
-          ptr->type |= SYMBOL;
-          break;
+
+  // processing the input
+  for(uint8_t i = 0; option[i]; i++) {
+    switch(option[i]) {
+      case '1':
+        ptr->type |= LOWER;
+        break;
         
-        default:
-          // '\04' represents EOT
-          if(input[i] != '\04') {
-            printw("Unknown option [%c]!\n", input[i]);
+      case '2':
+        ptr->type |= UPPER;
+        break;
+        
+      case '3':
+        ptr->type |= NUMBER;
+        break;
+        
+      case '4':
+        ptr->type |= SYMBOL;
+        break;
+      
+      default:
+        // '\04' == EOT (ASCII)
+        if(option[i] != '\04') {
+          // terminal user inteface
+          if((ptr->scrStart) == TRUE) {
+            printw("Unknown option %c!\n", option[i]);
             refresh();
             napms(800);
           }
-          break;
-      }
-    }  
-    if(ptr->type > 0) break; // breaks the for loop
+          // command line
+          else printf("Unknown option %c!\n", option[i]);
+        }
+        break;
+    }
   }
 }
 
-void arrayOutput(Array *ptr) {
-  // printing the output
-  clear();
-  printw("Selected characters: %s\n"
-    "%i characters has been generated: %s\n"
-    "Size in bits: %i\n\n"
-    "Press \"s\" to start over\n"
-    "Press \"r\" to recreate\n"
-    "Press any other key to exit...",
-    ptr->genArray, ptr->length, ptr->genChar, ptr->length * 8);
-  refresh();
+// creates the array according to the inserted size and type
+void arrayCreation(Array *ptr) {
+  // "x" and "y" are used to count the for loop repetition
+  uint16_t x = 0, y = 0; // 32767 characters is the limit 
+  uint8_t range = 0;
+  char *chars = 0;
 
-  // freeing the allocated memory
+  /* the if statements checks the inserted type matches the values, and store the 
+  range, in case of multiple selection, it stores a sum of the anterior value */
+  if(ptr->type & LOWER) range += LETTERS;
+  if(ptr->type & UPPER) range += LETTERS;
+  if(ptr->type & NUMBER) range += NUMBERS;
+  if(ptr->type & SYMBOL) range += SYMBOLS;
+
+  ptr->genArray = malloc(range + 1); // the + 1 is because of a null char
+  
+  // attributes the chars to the array that is going to be used for generating the random characters
+  if(ptr->type & LOWER) {
+    chars = "abcdefghijklmnopqrstuvwxyz";
+    for(x = 0; x < LETTERS; y++, x++) ptr->genArray[y] = chars[x];
+  }
+  if(ptr->type & UPPER) {
+    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for(x = 0; x < LETTERS; y++, x++) ptr->genArray[y] = chars[x];
+  }
+  if(ptr->type & NUMBER) {
+    chars = "0123456789";
+    for(x = 0; x < NUMBERS; y++, x++) ptr->genArray[y] = chars[x];
+  }
+  if(ptr->type & SYMBOL) {
+    chars = "'|!@#$%&*()-_=+`{}[]^~<>,./?;:";
+    for(x = 0; x < SYMBOLS; y++, x++) ptr->genArray[y] = chars[x];
+  }
+  
+  ptr->genArray[y] = '\0';// null terminator is set in the last element
+  ptr->genChar = malloc(ptr->length + 1); // the + 1 is the addition of a null char
+
+  for(x = 0; x < ptr->length; x++) ptr->genChar[x] = ptr->genArray[getNextRandom(range)];
   free(ptr->genArray);
-  free(ptr->genChar);
+
+  ptr->genChar[x] = '\0'; // null terminator is nset in the last element
 }
