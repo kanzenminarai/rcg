@@ -1,7 +1,7 @@
-# CC =
-CFLAGS = -Wall -Wextra -pedantic -Iinclude/
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -pedantic -Iinclude/
 LDFLAGS = -lncurses
-OBJS = main.o array.o creation.o rand.o
+OBJS = main.o array.o rand.o tui.o cli.o
 TARGET = rcg
 PREFIX = /usr/local
 
@@ -16,9 +16,8 @@ $(TARGET): $(OBJS)
 clean:
 	rm -f $(OBJS) $(TARGET)
 
-
 install: $(TARGET)
-	install -Dm755 $(TARGET) $(DESTDIR)$(PREFIX)/bin/$(TARGET)
+	install -Dm755 $(TARGET) $(PREFIX)/bin/$(TARGET)
 
 uninstall:
-	rm -f $(DESTDIR)$(PREFIX)/bin/$(TARGET)
+	rm -f $(PREFIX)/bin/$(TARGET)
