@@ -34,13 +34,13 @@ git clone --verbose https://github.com/KanzenTaiwa/rcg.git
 # enter inside the directory
 cd rcg/
 
-# compile
+# compile locally
 make
 
 # compile and install
 sudo make install
 
-# (optional) remove built files
+# remove built files
 make clean
 ```
 
@@ -70,7 +70,7 @@ sudo make clean uninstall
 
 ### Contribution
  Pull requests will be analysed and can be accepted if everything is solved through a conversation, explain all the changes 
-through comments in the code about every change done, at the same style as the source code, please send a message on my discord: **kanzenminarai** or even by email using the one listed in the LICENSE file if you desire to talk.
+through comments in the code about every change done, at the same style as the source code, please send a message on my discord: **kanzenminarai** or even by email using the one listed in the LICENSE file if you wish to talk.
 
 ### License
 This software is under the [Zero Clause BSD License](./LICENSE).
