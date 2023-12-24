@@ -1,5 +1,7 @@
+# Random Character Generator
+
 ### About
- random character generator (rcg) is a open source software that generates pseudo-random characters, like letters, numbers and symbols 
+ rcg is a open source software that generates pseudo-random characters, like letters, numbers and symbols 
 according to the inserted length and type of characters selected.
 
 ![rcg](assets/rcg.gif)
