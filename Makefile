@@ -1,23 +1,24 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pedantic -Iinclude/
-LDFLAGS = -lncurses
-OBJS = main.o array.o rand.o tui.o cli.o
+COMPILER = gcc
+COMPILER_FLAGS = -Wall -Wextra -pedantic
+INCLUDE_PATH = -I include/
+LINKER_FLAG = -l ncurses
+OBJECT_FILES = ./*.o
 TARGET = rcg
-PREFIX = /usr/local
+INSTALL_PATH = /usr/local
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
-	$(CC) -o $@ $(OBJS) $(LDFLAGS)
+$(TARGET): object
+	$(COMPILER) -o $@ $(OBJECT_FILES) $(LINKER_FLAG)
 
-%.o: src/%.c
-	$(CC) $(CFLAGS) -c $<
+object:
+	$(COMPILER) $(COMPILER_FLAGS) $(INCLUDE_PATH) -c src/*.c src/util/*.c
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJECT_FILES) $(TARGET)
 
 install: $(TARGET)
-	install -Dm755 $(TARGET) $(PREFIX)/bin/$(TARGET)
+	install -Dm755 $(TARGET) $(INSTALL_PATH)/bin/$(TARGET)
 
 uninstall:
-	rm -f $(PREFIX)/bin/$(TARGET)
+	rm -f $(INSTALL_PATH)/bin/$(TARGET)
