@@ -3,10 +3,7 @@
 
 #include <var.h>
 
-// insert the values of each char range from the given input
-void charOptions(char const *option, Array *ptr);
-
-// creates a array and get the selected range of characters 
-void arrayCreation(Array *ptr);
+void characterTypeAttributionCases(char *option, Array *ptr);
+void arrayMain(Array *ptr);
 
 #endif // ARRAY_H
