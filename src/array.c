@@ -1,93 +1,91 @@
 #include <stdlib.h>
 #include <ncurses.h>
-#include <array.h>
-#include <rand.h>
-#define LOWER 1 << 0 // 1 in decimal
-#define UPPER 1 << 1 // 2 in decimal
-#define NUMBER 1 << 2 // 4 in decimal
-#define SYMBOL 1 << 3 // 8 in decimal
-#define LETTERS 26 // range of upper and lower letters
-#define NUMBERS 10 // range of numbers
-#define SYMBOLS 30 // range of symbols
+#include "array.h"
+#include "util/rand.h"
+#define LOWER 1 << 0
+#define UPPER 1 << 1
+#define NUMBER 1 << 2
+#define SYMBOL 1 << 3
+#define LETTERS_RANGE 26
+#define NUMBERS_RANGE 10
+#define SYMBOLS_RANGE 31
+#define NULLCHAR 1
+#define EOT '\04'
 
-void charOptions(const char *option, Array *ptr) {
-  ptr->type = 0;
+void characterTypeAttributionCases(char *option, Array *ptr) {
+  ptr->wrongInput = false;
+  ptr->characterType = 0;
+  for(uint8_t counter = 0; option[counter]; counter++) {
+    switch(option[counter]) {
+      case 'l':
+        ptr->characterType |= LOWER;
+        break;
 
-  // processing the input
-  for(uint8_t i = 0; option[i]; i++) {
-    switch(option[i]) {
-      case '1':
-        ptr->type |= LOWER;
+      case 'u':
+        ptr->characterType |= UPPER;
         break;
-        
-      case '2':
-        ptr->type |= UPPER;
+
+      case 'n':
+        ptr->characterType |= NUMBER;
         break;
-        
-      case '3':
-        ptr->type |= NUMBER;
+
+      case 's':
+        ptr->characterType |= SYMBOL;
         break;
-        
-      case '4':
-        ptr->type |= SYMBOL;
-        break;
-      
+
       default:
-        // '\04' == EOT (ASCII)
-        if(option[i] != '\04') {
-          // terminal user inteface
-          if((ptr->scrStart) == TRUE) {
-            printw("Unknown option %c!\n", option[i]);
-            refresh();
-            napms(800);
-          }
-          // command line
-          else printf("Unknown option %c!\n", option[i]);
-        }
+        if(option[counter] != EOT) ptr->wrongInput = true;
         break;
     }
   }
 }
 
-// creates the array according to the inserted size and type
-void arrayCreation(Array *ptr) {
-  // "x" and "y" are used to count the for loop repetition
-  uint16_t x = 0, y = 0; // 32767 characters is the limit 
-  uint8_t range = 0;
-  char *chars = 0;
+void charactersRangeAttribution(Array *ptr) {
+  ptr->arrayRange = 0;
+  if(ptr->characterType & LOWER) ptr->arrayRange += LETTERS_RANGE;
+  if(ptr->characterType & UPPER) ptr->arrayRange += LETTERS_RANGE;
+  if(ptr->characterType & NUMBER) ptr->arrayRange += NUMBERS_RANGE;
+  if(ptr->characterType & SYMBOL) ptr->arrayRange += SYMBOLS_RANGE;
+  ptr->generatedArray = malloc(ptr->arrayRange + NULLCHAR);
+}
 
-  /* the if statements checks the inserted type matches the values, and store the 
-  range, in case of multiple selection, it stores a sum of the anterior value */
-  if(ptr->type & LOWER) range += LETTERS;
-  if(ptr->type & UPPER) range += LETTERS;
-  if(ptr->type & NUMBER) range += NUMBERS;
-  if(ptr->type & SYMBOL) range += SYMBOLS;
+void characterTypeAttribution(Array *ptr) {
+  uint16_t charactersSize = 0, arraySize = 0;
+  char *characters = NULL;
+  if(ptr->characterType & LOWER) {
+    characters = "abcdefghijklmnopqrstuvwxyz";
+    for(charactersSize = 0; charactersSize < LETTERS_RANGE; arraySize++, charactersSize++)
+      ptr->generatedArray[arraySize] = characters[charactersSize];
+  }
+  if(ptr->characterType & UPPER) {
+    characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for(charactersSize = 0; charactersSize < LETTERS_RANGE; arraySize++, charactersSize++)
+      ptr->generatedArray[arraySize] = characters[charactersSize];
+  }
+  if(ptr->characterType & NUMBER) {
+    characters = "0123456789";
+    for(charactersSize = 0; charactersSize < NUMBERS_RANGE; arraySize++, charactersSize++)
+      ptr->generatedArray[arraySize] = characters[charactersSize];
+  }
+  if(ptr->characterType & SYMBOL) {
+    characters = "\"'|!@#$%&*()-_=+`{}[]^~<>,./?;:";
+    for(charactersSize = 0; charactersSize < SYMBOLS_RANGE; arraySize++, charactersSize++)
+      ptr->generatedArray[arraySize] = characters[charactersSize];
+  }
+  ptr->generatedArray[arraySize] = '\0';
+}
 
-  ptr->genArray = malloc(range + 1); // the + 1 is because of a null char
-  
-  // attributes the chars to the array that is going to be used for generating the random characters
-  if(ptr->type & LOWER) {
-    chars = "abcdefghijklmnopqrstuvwxyz";
-    for(x = 0; x < LETTERS; y++, x++) ptr->genArray[y] = chars[x];
-  }
-  if(ptr->type & UPPER) {
-    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    for(x = 0; x < LETTERS; y++, x++) ptr->genArray[y] = chars[x];
-  }
-  if(ptr->type & NUMBER) {
-    chars = "0123456789";
-    for(x = 0; x < NUMBERS; y++, x++) ptr->genArray[y] = chars[x];
-  }
-  if(ptr->type & SYMBOL) {
-    chars = "'|!@#$%&*()-_=+`{}[]^~<>,./?;:";
-    for(x = 0; x < SYMBOLS; y++, x++) ptr->genArray[y] = chars[x];
-  }
-  
-  ptr->genArray[y] = '\0';// null terminator is set in the last element
-  ptr->genChar = malloc(ptr->length + 1); // the + 1 is the addition of a null char
+void characterGeneration(Array *ptr) {
+  uint32_t size = 0;
+  ptr->generatedChararacters = malloc(ptr->characterLength + NULLCHAR);
+  for(size = 0; size < ptr->characterLength; size++)
+    ptr->generatedChararacters[size] = ptr->generatedArray[getNextRandom(ptr->arrayRange)];
+  free(ptr->generatedArray);
+  ptr->generatedChararacters[size] = '\0';
+}
 
-  for(x = 0; x < ptr->length; x++) ptr->genChar[x] = ptr->genArray[getNextRandom(range)];
-  free(ptr->genArray);
-
-  ptr->genChar[x] = '\0'; // null terminator is nset in the last element
+void arrayMain(Array *ptr) {
+  charactersRangeAttribution(ptr);
+  characterTypeAttribution(ptr);
+  characterGeneration(ptr);
 }
