@@ -1,60 +1,86 @@
 #include <ncurses.h>
 #include <stdlib.h>
-#include <array.h>
+#include "util/string.h"
+#include "array.h"
+#define UINT16_MIN 0
+#define BYTE_IN_BITS 8
+#define START_OVER 's'
+#define REPEAT 'r'
+#define NEW_LINE_CHARACTER 1
+#define UNKNOWN_TYPE 0
 
-// get the size of the characters that will be generated
-void arraySize(Array *ptr) {
-  ptr->length = 0;
-  
-  // here will get the size of the array
-  for(;;) {
+void getArrayLength(Array *ptr) {
+  ptr->characterLength = 0;
+  while(true) {
     clear();
     printw("Random Character Generator\n"
       "Enter the length: ");
     refresh();
-    scanw("%u", &(ptr->length));
-
-    if(ptr->length > 0 && ptr->length < 32767) break; // breaks the loop in case of a known value
+    scanw("%hu", &(ptr->characterLength));
+    if((ptr->characterLength > UINT16_MIN) && (ptr->characterLength < UINT16_MAX)) break;
     printw("Unknown value!\n");
     refresh();
     napms(500);
   }
 }
 
-// get the type inserted through the input
-void arrayType(Array *ptr) {
-  // initializing the variables
-  char input[4];
-  char *str = input;
-  uint8_t count = 0;
-  
-  // selection of the type of the characters
-  for(;;) {
-    clear();
-    printw("Select a option:\n"
-      "[1] lower (a - z)\n"
-      "[2] upper (A - Z)\n"
-      "[3] numbers (0 - 9)\n"
-      "[4] symbols (# - !)\n");
+void checkInputedType(bool wrongInput) {
+  if(wrongInput == true) {
+    printw("Unknown type!\n");
     refresh();
-    getnstr(input, sizeof(input));
-
-    // passing values from the array of chars to a pointer of chars
-    for(count = 0; count < 5; count++) str[count] = input[count];    
-    charOptions(str, ptr);
-    if(ptr->type > 0) break;
+    napms(500);
   }
 }
 
-// show the outputed characters generated earlier by the inputs
-void arrayOutput(Array *ptr) {
+void getArrayType(Array *ptr) {
+  char characterTypeInput[5];
+  char *convertedArrayToString = (char *) characterTypeInput;
+  while(true) {
+    clear();
+    printw("Select a type:\n"
+      "[l] lower case (a - z)\n"
+      "[u] upper case (A - Z)\n"
+      "[n] numbers (0 - 9)\n"
+      "[s] symbols (# - !)\n");
+    refresh();
+    getnstr(characterTypeInput, sizeof(characterTypeInput) - NEW_LINE_CHARACTER);
+    characterTypeAttributionCases(convertedArrayToString, ptr);
+    checkInputedType(ptr->wrongInput);
+    if(ptr->characterType != UNKNOWN_TYPE) break;
+  }
+}
+
+void showGeneratedCharacters(Array *ptr) {
   clear();
-  // printing the output and the size in bits (length * size of a byte in bits)
   printw("%i characters generated: %s\n"
     "Size in bits: %i\n\n"
     "Start over [s]\n"
     "Recreate [r]\n"
     "Exit [any other key]\n",
-    ptr->length, ptr->genChar, ptr->length * 8);
+    ptr->characterLength, ptr->generatedChararacters, ptr->characterLength * BYTE_IN_BITS);
   refresh();
+  free(ptr->generatedChararacters);
+}
+
+void repeatInput(Array *ptr) {
+  bool repeatCharacters = 0;
+  uint8_t choice = 0;
+  while(true) {
+    if(repeatCharacters == false) {
+      getArrayLength(ptr);
+      getArrayType(ptr);
+    }
+    arrayMain(ptr);
+    showGeneratedCharacters(ptr);
+    choice = getch();
+    if(choice == START_OVER) repeatCharacters = false;
+    else if(choice == REPEAT) repeatCharacters = true;
+    else break;
+  }
+}
+
+void tuiMain(Array *ptr) {
+  initscr();
+  repeatInput(ptr);
+  endwin();
 }
