@@ -1,51 +1,84 @@
 #include <stdio.h>
-#include <stdint.h>
-#include <string.h>
 #include <stdlib.h>
-#include <array.h>
-#include <cli.h>
+#include "array.h"
+#include "cli.h"
+#include "util/string.h"
+#define ALL_ARGS 4
+#define NO_SIZE_ARG -2
+#define NO_TYPE_ARG -1
+#define SIZE_VERIFIED 1
+#define TYPE_VERIFIED 2
+#define SECOND_ARG 2
+#define THIRD_ARG 3
 
-// simple implementation of the atoi(), it "converts" ascii number range to integer
-int anti(char *string) {
-  uint8_t count = 0, result = 0;
-  char sign = 1; // 1 == positive
-
-  if(string[0] == '-') count++, sign = -1; // skips the signal if exists and sign gets -1 which equals negative
-  for(; (string[count] >= '0') && (string[count] <= '9'); count++) result = (result * 10) + (string[count] - '0');
-  return result * sign;
+void cliOptionHelp() {
+  printf("usages: rcg, rcg help, rcg char [size] [type]\n\n"
+    "commands:\n"
+    "help  prints informations about rcg\n"
+    "char  generates characters using the size and type specified\n\n"
+    "char options:\n"
+    "l  generates ASCII lower case letters\n"
+    "u  generates ASCII upper case letters\n"
+    "n  generates ASCII decimal base numbers\n"
+    "s  generates ASCII symbols\n");
 }
 
-// command line interface for rcg
-void cli(char **argv, Array *ptr) {
-  char *str = argv[3];
+void cliArrayGeneration(char **argv, Array *ptr) {
+    ptr->characterLength = asciiToInteger((char *) argv[2]);
+    char *charactersType = (char *) argv[3];
+    characterTypeAttributionCases(charactersType, ptr);
+    arrayMain(ptr);
+}
 
-  // compares if "help" is the same as the argument 1 on argv
-  if(strcmp("help", argv[1]) == 0) {
-    printf("Usages: rcg, rcg help, rcg generate [size] [type]\n\n"
-      "Command:\n"
-      "help      prints informations about rcg\n"
-      "generate  generates characters using the size and type\n\n"
-      "Instructions:\n"
-      "Size must be a positive number from 1 up to 32767\n"
-      "Type must be one or more options from 1 up to 4, any order\n");
+int checkArgument(char **argv, Array *ptr) {
+  int check = 0, validInput0 = 0, validInput1 = 0, counter = 0;
+  char *checkArgumentThree = (char *) argv[2];
+  char *checkArgumentFour = (char *) argv[3];
+  if(ptr->argumentCount == SECOND_ARG) check = NO_SIZE_ARG;
+  if(ptr->argumentCount == THIRD_ARG) check = NO_TYPE_ARG;
+  if(ptr->argumentCount == ALL_ARGS) {
+    while(checkArgumentThree[counter] != '\0') {
+      if(checkArgumentThree[counter] >= '0' && checkArgumentThree[counter] <= '9') validInput0++;
+      counter++;
+    }
+    if(validInput0 == counter) check = SIZE_VERIFIED;
+    counter = 0;
+    while(checkArgumentFour[counter] != '\0') {
+      if(checkArgumentFour[counter] == 'l' || checkArgumentFour[counter] == 'u') validInput1++;
+      if(checkArgumentFour[counter] == 'n' || checkArgumentFour[counter] == 's') validInput1++;
+      counter++;
+    }
+    if(validInput1 == counter) check = check + TYPE_VERIFIED;
   }
-  
-  if(strcmp("generate", argv[1]) == 0) {
-    // get the size
-    ptr->length = anti(argv[2]);
-    
-    /* copies the argv[3] string to *str to make a convertion,
-    after that it is passed as argument to charOptions() */
-    strcpy(str, argv[3]);
-    charOptions(str, ptr);
-    arrayCreation(ptr);
+  return check;
+}
 
-    // print the characters
-    printf("%s\n", ptr->genChar);
-    
-    // free the memory after usage
-    free(ptr->genChar);
+void checkArgumentReturnValue(char **argv, int value, Array *ptr) {
+  if(value == 3) {
+    cliArrayGeneration(argv, ptr);
+    printf("%s\n", ptr->generatedChararacters);
+    free(ptr->generatedChararacters);
   }
-  // if it is a unknown input, shows a error message
-  else if(strcmp("help", argv[1]) != 0) printf("Unknown usage, use \"help\" argument\n");
+  if(value == 2) printf("Unknown size selected\n");
+  if(value == 1) printf("Unknown type selected\n");
+  if(value == 0) printf("Unknown options selected\n");
+  if(value == -1) printf("No type selected\n");
+  if(value == -2) printf("No size selected\n");
+}
+
+void cliOptionChar(char **argv, Array *ptr) {
+  int value = 0;
+  value = checkArgument(argv, ptr);
+  checkArgumentReturnValue(argv, value, ptr);
+}
+
+void compareStringToArgument(char **argv, Array *ptr) {
+  if(stringCompare("help", argv[1]) == 0) cliOptionHelp();
+  if(stringCompare("char", argv[1]) == 0) cliOptionChar(argv, ptr);
+  if((stringCompare("help", argv[1]) != 0) && (stringCompare("char", argv[1]) != 0))
+    printf("Unknown option, use [%s help] argument\n", argv[0]);
+}
+
+void cliMain(char **argv, Array *ptr) {
+  compareStringToArgument(argv, ptr);
 }
