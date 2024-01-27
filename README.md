@@ -22,7 +22,7 @@ sudo pacman -S git ncurses make gcc
  Follow the steps described below to download and compile the software.
 ```sh
 # clone the repository
-git clone --verbose https://github.com/KanzenMinarai/rcg.git
+git clone --verbose https://github.com/kanzenminarai/rcg.git
 
 # change the directory
 cd rcg/
